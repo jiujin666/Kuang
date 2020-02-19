@@ -13,7 +13,6 @@ import com.example.kuangjia.models.bean.IndexBean;
 
 
 import java.util.List;
-//所有adapter父类
 public class BrandAdapter extends BaseAdapter {
 
     public BrandAdapter(List data, Context context) {

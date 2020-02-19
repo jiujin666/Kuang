@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.kuangjia.R;
-import com.example.kuangjia.activity.BrandActivity;
 import com.example.kuangjia.adapter.BrandAdapter;
 import com.example.kuangjia.base.BaseAdapter;
 import com.example.kuangjia.base.BaseFragment;
 import com.example.kuangjia.interfaces.home.HomeConstract;
 import com.example.kuangjia.models.bean.IndexBean;
 import com.example.kuangjia.persenter.home.HomePersenter;
+import com.example.kuangjia.ui.activitys.BrandActivity;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
 

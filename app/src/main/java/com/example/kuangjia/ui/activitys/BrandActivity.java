@@ -72,4 +72,5 @@ public class BrandActivity extends BaseActivity<BrandConstract.Persenter> implem
     public void getBrandGoodsReturn(BrandGoodsBean result) {
         brandGoodsAdapter.updata(result.getData().getGoodsList());
     }
+
 }
