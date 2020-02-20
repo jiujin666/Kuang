@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_height="match_parent">
-    <TextView
-        android:text="3"
+    <androidx.appcompat.widget.SearchView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center"
+        android:layout_height="30dp"
+        android:background="#C0C0C0" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <q.rorbin.verticaltablayout.VerticalTabLayout
+            android:id="@+id/sort_vtb"
+            app:tab_mode="fixed"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/sort_vp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 </LinearLayout>

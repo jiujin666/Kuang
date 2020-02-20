@@ -93,10 +93,10 @@ public class MainActivity extends BaseActivity {
         SortFragment sortFragment = new SortFragment();
         TopicFragment topicFragment = new TopicFragment();
         fragments.add(homeFragment);
-        fragments.add(meFragment);
-        fragments.add(shopingFragment);
-        fragments.add(sortFragment);
         fragments.add(topicFragment);
+        fragments.add(sortFragment);
+        fragments.add(shopingFragment);
+        fragments.add(meFragment);
         return fragments;
     }
 
