@@ -4,6 +4,7 @@ import com.example.kuangjia.models.bean.BrandBean;
 import com.example.kuangjia.models.bean.BrandGoodsBean;
 import com.example.kuangjia.models.bean.IndexBean;
 import com.example.kuangjia.models.bean.TabItemBean;
+import com.example.kuangjia.models.bean.TopicBean;
 import com.example.kuangjia.models.bean.VtlNameBean;
 
 import io.reactivex.Flowable;
@@ -24,4 +25,6 @@ public interface ShopApi {
     Flowable<VtlNameBean> getVtlNames();
     @GET("catalog/current")
     Flowable<TabItemBean> getSortItems(@Query("id")int id);
+    @GET("index")
+    Flowable<TopicBean> getTopicData();
 }
