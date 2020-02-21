@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:text="4"
+        android:text="购物车页面，待填充"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

@@ -34,7 +34,6 @@ public abstract class BaseActivity<P extends IBasePersenter> extends AppCompatAc
             persenter.attachView(this);
         }
         initData();
-
     }
 
     //通过模板的设计模式，定义需要处理的方法

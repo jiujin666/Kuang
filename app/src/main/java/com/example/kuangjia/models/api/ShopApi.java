@@ -3,6 +3,8 @@ package com.example.kuangjia.models.api;
 import com.example.kuangjia.models.bean.BrandBean;
 import com.example.kuangjia.models.bean.BrandGoodsBean;
 import com.example.kuangjia.models.bean.IndexBean;
+import com.example.kuangjia.models.bean.SortDetialBean;
+import com.example.kuangjia.models.bean.SortDetialGoodsBean;
 import com.example.kuangjia.models.bean.TabItemBean;
 import com.example.kuangjia.models.bean.TopicBean;
 import com.example.kuangjia.models.bean.VtlNameBean;
@@ -27,4 +29,8 @@ public interface ShopApi {
     Flowable<TabItemBean> getSortItems(@Query("id")int id);
     @GET("index")
     Flowable<TopicBean> getTopicData();
+    @GET("goods/category")
+    Flowable<SortDetialBean> getSortDetialTab(@Query("id")int id);
+    @GET("goods/list")
+    Flowable<SortDetialGoodsBean> getSortDetailGoods(@Query("id")int id, @Query("page")int page, @Query("size") int size);
 }

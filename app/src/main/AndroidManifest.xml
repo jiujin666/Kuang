@@ -23,7 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activitys.TestActivity"/>
         <activity android:name=".ui.activitys.BrandActivity"/>
+        <activity android:name=".ui.activitys.SortDetailActivity"/>
     </application>
 
 </manifest>

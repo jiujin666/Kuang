@@ -1,5 +1,6 @@
 package com.example.kuangjia.ui.fragments.sort;
 
+import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.kuangjia.R;
 import com.example.kuangjia.adapter.CommonAdapter;
+import com.example.kuangjia.base.BaseAdapter;
 import com.example.kuangjia.base.BaseFragment;
 import com.example.kuangjia.interfaces.IBasePersenter;
 import com.example.kuangjia.interfaces.sort.SortConstract;
@@ -16,12 +18,13 @@ import com.example.kuangjia.interfaces.sort.SortItemConstract;
 import com.example.kuangjia.models.bean.TabItemBean;
 import com.example.kuangjia.models.bean.VtlNameBean;
 import com.example.kuangjia.persenter.sort.SortItemPersenter;
+import com.example.kuangjia.ui.activitys.SortDetailActivity;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 
-public class CommonFragment extends BaseFragment<SortItemConstract.Persenter> implements SortItemConstract.View {
+public class CommonFragment extends BaseFragment<SortItemConstract.Persenter> implements SortItemConstract.View, BaseAdapter.ItemClickHandler {
     @BindView(R.id.comm_iv)
     ImageView comm_iv;
     @BindView(R.id.comm_tv)
@@ -52,6 +55,7 @@ public class CommonFragment extends BaseFragment<SortItemConstract.Persenter> im
         commonAdapter = new CommonAdapter(sortItemList, context);
         comm_rv.setLayoutManager(new GridLayoutManager(getContext(), 3));
         comm_rv.setAdapter(commonAdapter);
+        commonAdapter.setOnItemClickHandler(this);
     }
 
     @Override
@@ -77,4 +81,12 @@ public class CommonFragment extends BaseFragment<SortItemConstract.Persenter> im
         commonAdapter.updata(result.getData().getCurrentCategory().getSubCategoryList());
     }
 
+
+    @Override
+    public void itemClick(int position, BaseAdapter.BaseViewHolder holder) {
+        int id = sortItemList.get(position).getId();
+        Intent intent = new Intent(context, SortDetailActivity.class);
+        intent.putExtra("sortid",id);
+        startActivity(intent);
+    }
 }
