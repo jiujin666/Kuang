@@ -28,9 +28,38 @@
             android:layout_height="match_parent"
             />
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/sort_vp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp">
+                <ImageView
+                    android:id="@+id/sort_iv"
+                    android:scaleType="fitXY"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+                <TextView
+                    android:layout_centerInParent="true"
+                    android:id="@+id/tab_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/sort_tv"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sort_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

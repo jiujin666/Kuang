@@ -32,5 +32,5 @@ public interface ShopApi {
     @GET("goods/category")
     Flowable<SortDetialBean> getSortDetialTab(@Query("id")int id);
     @GET("goods/list")
-    Flowable<SortDetialGoodsBean> getSortDetailGoods(@Query("id")int id, @Query("page")int page, @Query("size") int size);
+    Flowable<SortDetialGoodsBean> getSortDetailGoods(@Query("categoryId")int id, @Query("page")int page, @Query("size") int size);
 }

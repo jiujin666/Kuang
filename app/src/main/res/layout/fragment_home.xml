@@ -79,6 +79,52 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
+
+            <TextView
+                android:text="周一周四 · 新品首发"
+                android:layout_marginTop="15dp"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_height="30dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_news_recy"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:text="人气推荐"
+                android:layout_marginTop="15dp"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_height="30dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_hot_recy"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+            <TextView
+                android:text="专题精选"
+                android:layout_marginTop="15dp"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_height="30dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_top_recy"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
         </LinearLayout>
     </ScrollView>
 

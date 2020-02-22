@@ -5,16 +5,22 @@ import android.content.Intent;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.bumptech.glide.Glide;
 import com.example.kuangjia.R;
 import com.example.kuangjia.adapter.BrandAdapter;
+import com.example.kuangjia.adapter.HotAdapter;
+import com.example.kuangjia.adapter.NewsAdapter;
+import com.example.kuangjia.adapter.TopAdapter;
+import com.example.kuangjia.adapter.TopicAdapter;
 import com.example.kuangjia.base.BaseAdapter;
 import com.example.kuangjia.base.BaseFragment;
 import com.example.kuangjia.interfaces.home.HomeConstract;
 import com.example.kuangjia.models.bean.IndexBean;
+import com.example.kuangjia.models.bean.TopicBean;
 import com.example.kuangjia.persenter.home.HomePersenter;
 import com.example.kuangjia.ui.activitys.BrandActivity;
 import com.youth.banner.Banner;
@@ -32,8 +38,20 @@ public class HomeFragment extends BaseFragment<HomeConstract.Persenter> implemen
     Banner mBanner;
     @BindView(R.id.home_zhizao_recy)
     RecyclerView mHomeZhizaoRecy;
+    @BindView(R.id.home_news_recy)
+    RecyclerView home_news_recy;
+    @BindView(R.id.home_hot_recy)
+    RecyclerView home_hot_recy;
+    @BindView(R.id.home_top_recy)
+    RecyclerView home_top_recy;
     private List<IndexBean.DataBean.BrandListBean> brandList;
     BrandAdapter brandAdapter;
+    private ArrayList<IndexBean.DataBean.NewGoodsListBean> goodsList;
+    private NewsAdapter newsAdapter;
+    private ArrayList<IndexBean.DataBean.TopicListBean> topList;
+    private ArrayList<IndexBean.DataBean.HotGoodsListBean> hotList;
+    private HotAdapter hotAdapter;
+    private TopAdapter topAdapter;
 
     @Override
     protected int getLayout() {
@@ -47,6 +65,21 @@ public class HomeFragment extends BaseFragment<HomeConstract.Persenter> implemen
         mHomeZhizaoRecy.setLayoutManager(new GridLayoutManager(context,2));
         mHomeZhizaoRecy.setAdapter(brandAdapter);
         brandAdapter.setOnItemClickHandler(this);
+
+        goodsList = new ArrayList<>();
+        newsAdapter = new NewsAdapter(goodsList, context);
+        home_news_recy.setLayoutManager(new GridLayoutManager(context,2));
+        home_news_recy.setAdapter(newsAdapter);
+
+        hotList = new ArrayList<>();
+        hotAdapter = new HotAdapter(hotList,context);
+        home_hot_recy.setLayoutManager(new LinearLayoutManager(getContext()));
+        home_hot_recy.setAdapter(hotAdapter);
+
+        topList = new ArrayList<>();
+        topAdapter = new TopAdapter(topList,context);
+        home_top_recy.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        home_top_recy.setAdapter(topAdapter);
 
     }
 
@@ -82,6 +115,10 @@ public class HomeFragment extends BaseFragment<HomeConstract.Persenter> implemen
         mBanner.start();
         //刷新Brand列表数据
         brandAdapter.updata(result.getData().getBrandList());
+        newsAdapter.updata(result.getData().getNewGoodsList());
+        hotAdapter.updata(result.getData().getHotGoodsList());
+        topAdapter.updata(result.getData().getTopicList());
+
     }
 
     public class GlideImafeLoader extends ImageLoader {

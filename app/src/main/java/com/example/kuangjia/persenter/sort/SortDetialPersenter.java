@@ -2,14 +2,13 @@ package com.example.kuangjia.persenter.sort;
 
 import com.example.kuangjia.base.BasePersenter;
 import com.example.kuangjia.common.CommonSubscriber;
-import com.example.kuangjia.interfaces.sort.SortItemConstract;
+import com.example.kuangjia.interfaces.sort.SortConstract;
 import com.example.kuangjia.models.HttpManager;
 import com.example.kuangjia.models.bean.SortDetialBean;
 import com.example.kuangjia.models.bean.SortDetialGoodsBean;
-import com.example.kuangjia.models.bean.VtlNameBean;
 import com.example.kuangjia.utils.RxUtils;
 
-public class SortDetialPersenter extends BasePersenter<SortItemConstract.DetailView> implements SortItemConstract.DetailPersenter {
+public class SortDetialPersenter extends BasePersenter<SortConstract.DetailView> implements SortConstract.DetailPersenter {
 
     @Override
     public void getSortDetailTab(int id) {

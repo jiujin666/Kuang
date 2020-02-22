@@ -12,8 +12,8 @@ import com.example.kuangjia.models.bean.TabItemBean;
 
 import java.util.List;
 
-public class CommonAdapter extends BaseAdapter {
-    public CommonAdapter(List data, Context context) {
+public class SortAdapter extends BaseAdapter {
+    public SortAdapter(List data, Context context) {
         super(data, context);
     }
 

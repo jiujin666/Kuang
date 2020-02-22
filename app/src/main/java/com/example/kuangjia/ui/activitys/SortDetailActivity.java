@@ -1,6 +1,5 @@
 package com.example.kuangjia.ui.activitys;
 
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -9,8 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.kuangjia.R;
 import com.example.kuangjia.adapter.SortDetailAdapter;
 import com.example.kuangjia.base.BaseActivity;
-import com.example.kuangjia.interfaces.IBasePersenter;
-import com.example.kuangjia.interfaces.sort.SortItemConstract;
+import com.example.kuangjia.interfaces.sort.SortConstract;
 import com.example.kuangjia.models.bean.SortDetialBean;
 import com.example.kuangjia.models.bean.SortDetialGoodsBean;
 import com.example.kuangjia.persenter.sort.SortDetialPersenter;
@@ -21,7 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class SortDetailActivity extends BaseActivity<SortItemConstract.DetailPersenter> implements SortItemConstract.DetailView, TabLayout.BaseOnTabSelectedListener {
+public class SortDetailActivity extends BaseActivity<SortConstract.DetailPersenter> implements SortConstract.DetailView, TabLayout.BaseOnTabSelectedListener {
 
     @BindView(R.id.sort_tl)
     TabLayout sort_tl;
@@ -58,7 +56,7 @@ public class SortDetailActivity extends BaseActivity<SortItemConstract.DetailPer
     }
 
     @Override
-    protected SortItemConstract.DetailPersenter createPersenter() {
+    protected SortConstract.DetailPersenter createPersenter() {
         return new SortDetialPersenter();
     }
 
