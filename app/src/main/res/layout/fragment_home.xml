@@ -67,6 +67,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/brand_heading"
                 android:text="品牌制造商直供"
                 android:textSize="18sp"
                 android:gravity="center"

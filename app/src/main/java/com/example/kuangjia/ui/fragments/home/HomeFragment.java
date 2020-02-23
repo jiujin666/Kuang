@@ -2,7 +2,9 @@ package com.example.kuangjia.ui.fragments.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,14 +17,13 @@ import com.example.kuangjia.adapter.BrandAdapter;
 import com.example.kuangjia.adapter.HotAdapter;
 import com.example.kuangjia.adapter.NewsAdapter;
 import com.example.kuangjia.adapter.TopAdapter;
-import com.example.kuangjia.adapter.TopicAdapter;
 import com.example.kuangjia.base.BaseAdapter;
 import com.example.kuangjia.base.BaseFragment;
 import com.example.kuangjia.interfaces.home.HomeConstract;
 import com.example.kuangjia.models.bean.IndexBean;
-import com.example.kuangjia.models.bean.TopicBean;
 import com.example.kuangjia.persenter.home.HomePersenter;
 import com.example.kuangjia.ui.activitys.BrandActivity;
+import com.example.kuangjia.ui.activitys.BrandDetailActivity;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
 
@@ -44,6 +45,8 @@ public class HomeFragment extends BaseFragment<HomeConstract.Persenter> implemen
     RecyclerView home_hot_recy;
     @BindView(R.id.home_top_recy)
     RecyclerView home_top_recy;
+    @BindView(R.id.brand_heading)
+    TextView brand_heading;
     private List<IndexBean.DataBean.BrandListBean> brandList;
     BrandAdapter brandAdapter;
     private ArrayList<IndexBean.DataBean.NewGoodsListBean> goodsList;
@@ -80,6 +83,14 @@ public class HomeFragment extends BaseFragment<HomeConstract.Persenter> implemen
         topAdapter = new TopAdapter(topList,context);
         home_top_recy.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         home_top_recy.setAdapter(topAdapter);
+
+        brand_heading.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, BrandDetailActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

@@ -1,8 +1,10 @@
 package com.example.kuangjia.models.api;
 
 import com.example.kuangjia.models.bean.BrandBean;
+import com.example.kuangjia.models.bean.BrandDetialBean;
 import com.example.kuangjia.models.bean.BrandGoodsBean;
 import com.example.kuangjia.models.bean.IndexBean;
+import com.example.kuangjia.models.bean.NewsDetailBean;
 import com.example.kuangjia.models.bean.SortDetialBean;
 import com.example.kuangjia.models.bean.SortDetialGoodsBean;
 import com.example.kuangjia.models.bean.TabItemBean;
@@ -33,4 +35,9 @@ public interface ShopApi {
     Flowable<SortDetialBean> getSortDetialTab(@Query("id")int id);
     @GET("goods/list")
     Flowable<SortDetialGoodsBean> getSortDetailGoods(@Query("categoryId")int id, @Query("page")int page, @Query("size") int size);
+    //新平详情页面的banner
+    @GET("goods/hot")
+    Flowable<NewsDetailBean> getNewsDetailBean();
+    @GET("/brand/list")
+    Flowable<BrandDetialBean> getBrandDetailBean(@Query("page") int page, @Query("size") int size);
 }
