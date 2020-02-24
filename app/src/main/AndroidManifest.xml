@@ -27,6 +27,8 @@
         <activity android:name=".ui.activitys.BrandActivity" />
         <activity android:name=".ui.activitys.SortDetailActivity" />
         <activity android:name=".ui.activitys.BrandDetailActivity"/>
+        <activity android:name=".ui.activitys.GoodInfoActivity"/>
+        <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing" android:value="true"/>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.example.kuangjia.ui.activitys;
 
+import android.content.Intent;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.kuangjia.R;
 import com.example.kuangjia.adapter.SortDetailAdapter;
 import com.example.kuangjia.base.BaseActivity;
+import com.example.kuangjia.base.BaseAdapter;
 import com.example.kuangjia.interfaces.sort.SortConstract;
 import com.example.kuangjia.models.bean.SortDetialBean;
 import com.example.kuangjia.models.bean.SortDetialGoodsBean;
@@ -19,7 +21,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class SortDetailActivity extends BaseActivity<SortConstract.DetailPersenter> implements SortConstract.DetailView, TabLayout.BaseOnTabSelectedListener {
+public class SortDetailActivity extends BaseActivity<SortConstract.DetailPersenter> implements SortConstract.DetailView, TabLayout.BaseOnTabSelectedListener, BaseAdapter.ItemClickHandler {
 
     @BindView(R.id.sort_tl)
     TabLayout sort_tl;
@@ -30,7 +32,7 @@ public class SortDetailActivity extends BaseActivity<SortConstract.DetailPersent
     @BindView(R.id.sort_recy)
     RecyclerView sort_recy;
     private List<SortDetialBean.DataBean.BrotherCategoryBean> tabs;
-    private ArrayList<Object> goodsList;
+    private ArrayList<SortDetialGoodsBean.DataBeanX.GoodsListBean> goodsList;
     private SortDetailAdapter sortDetailAdapter;
 
     @Override
@@ -47,6 +49,7 @@ public class SortDetailActivity extends BaseActivity<SortConstract.DetailPersent
         sortDetailAdapter = new SortDetailAdapter(goodsList, this);
         sort_recy.setLayoutManager(new GridLayoutManager(this,2));
         sort_recy.setAdapter(sortDetailAdapter);
+        sortDetailAdapter.setOnItemClickHandler(this);
     }
 
     @Override
@@ -103,5 +106,12 @@ public class SortDetailActivity extends BaseActivity<SortConstract.DetailPersent
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
+    }
+
+    @Override
+    public void itemClick(int position, BaseAdapter.BaseViewHolder holder) {
+        Intent intent = new Intent(this, GoodInfoActivity.class);
+        intent.putExtra("ids",goodsList.get(position).getId());
+        startActivity(intent);
     }
 }
