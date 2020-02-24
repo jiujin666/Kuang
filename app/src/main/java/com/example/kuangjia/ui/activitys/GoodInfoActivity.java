@@ -6,13 +6,16 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.kuangjia.R;
+import com.example.kuangjia.adapter.RelateBottonAdapter;
 import com.example.kuangjia.base.BaseActivity;
 import com.example.kuangjia.interfaces.sort.GoodInfoConstract;
 import com.example.kuangjia.models.bean.RelatedBean;
+import com.example.kuangjia.models.bean.RelatedBottonBean;
 import com.example.kuangjia.persenter.sort.GoodInfoPersenter;
 import com.example.kuangjia.ui.fragments.home.HomeFragment;
 import com.youth.banner.Banner;
@@ -47,6 +50,8 @@ public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter>
     TextView txt_place;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    private ArrayList<RelatedBottonBean.DataBean.GoodsListBean> bottonList;
+    private RelateBottonAdapter relateBottonAdapter;
 
     @Override
     protected int getLayout() {
@@ -57,12 +62,18 @@ public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter>
     protected void initView() {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+
+        bottonList = new ArrayList<>();
+        relateBottonAdapter = new RelateBottonAdapter(bottonList, this);
+        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setAdapter(relateBottonAdapter);
     }
 
     @Override
     protected void initData() {
         int relatedId = getIntent().getIntExtra("ids", 0);
         persenter.getRelatedData(relatedId);
+        persenter.getBottonData(relatedId);
     }
 
     @Override
@@ -76,8 +87,13 @@ public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter>
         String price = getResources().getString(R.string.price_news_model).replace("$",String.valueOf(result.getData().getInfo().getRetail_price()));
         updatePrice(result.getData().getInfo().getName(),
                 result.getData().getInfo().getGoods_brief(),price);
-        //updateParam(result.getData().getAttribute());
+        updateParam(result.getData().getAttribute());
         updateWebView(result.getData().getInfo());
+    }
+
+    @Override
+    public void getRelateBottonRetrun(RelatedBottonBean result) {
+        relateBottonAdapter.updata(result.getData().getGoodsList());
     }
 
     private void updateBanner(List<RelatedBean.DataBeanX.GalleryBean> list){
@@ -109,7 +125,7 @@ public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter>
         txt_size.setText(attribute.get(1).getValue());
         txt_color.setText(attribute.get(2).getValue());
         txt_norm.setText(attribute.get(3).getValue());
-        txt_price.setText(attribute.get(4).getValue());
+
     }
     //商品介绍描述信息
     private void updateWebView(RelatedBean.DataBeanX.InfoBean infoBean){

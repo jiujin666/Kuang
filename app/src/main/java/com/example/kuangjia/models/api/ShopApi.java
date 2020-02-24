@@ -9,6 +9,7 @@ import com.example.kuangjia.models.bean.LookingBean;
 import com.example.kuangjia.models.bean.NewsCommoditBean;
 import com.example.kuangjia.models.bean.NewsDetailBean;
 import com.example.kuangjia.models.bean.RelatedBean;
+import com.example.kuangjia.models.bean.RelatedBottonBean;
 import com.example.kuangjia.models.bean.SortDetialBean;
 import com.example.kuangjia.models.bean.SortDetialGoodsBean;
 import com.example.kuangjia.models.bean.TabItemBean;
@@ -68,5 +69,7 @@ public interface ShopApi {
     //商品购买页面的数据接口
     @GET("goods/detail")
     Flowable<RelatedBean> getRelatedData(@Query("id") int id);
+    @GET("goods/related")
+    Flowable<RelatedBottonBean> getBottonBean(@Query("id") int id);
 
 }
