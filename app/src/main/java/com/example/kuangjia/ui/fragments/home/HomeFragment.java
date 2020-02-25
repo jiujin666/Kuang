@@ -24,6 +24,8 @@ import com.example.kuangjia.models.bean.IndexBean;
 import com.example.kuangjia.persenter.home.HomePersenter;
 import com.example.kuangjia.ui.activitys.BrandActivity;
 import com.example.kuangjia.ui.activitys.BrandDetailActivity;
+import com.example.kuangjia.ui.activitys.HotActivity;
+import com.example.kuangjia.ui.activitys.NewsActivity;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
 
@@ -47,6 +49,11 @@ public class HomeFragment extends BaseFragment<HomeConstract.Persenter> implemen
     RecyclerView home_top_recy;
     @BindView(R.id.brand_heading)
     TextView brand_heading;
+    @BindView(R.id.news_heading)
+    TextView news_heading;
+    @BindView(R.id.hot_heading)
+    TextView hot_heading;
+
     private List<IndexBean.DataBean.BrandListBean> brandList;
     BrandAdapter brandAdapter;
     private ArrayList<IndexBean.DataBean.NewGoodsListBean> goodsList;
@@ -92,6 +99,21 @@ public class HomeFragment extends BaseFragment<HomeConstract.Persenter> implemen
             }
         });
 
+        news_heading.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, NewsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        hot_heading.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, HotActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
