@@ -1,11 +1,17 @@
 package com.example.kuangjia.ui.activitys;
 
 import android.content.Context;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +34,8 @@ import butterknife.BindView;
 
 public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter> implements GoodInfoConstract.View {
 
+    @BindView(R.id.cons)
+    ConstraintLayout constraintLayout;
     @BindView(R.id.goodinfo_banner)
     Banner goodinfo_banner;
     @BindView(R.id.txt_title)
@@ -48,10 +56,21 @@ public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter>
     TextView txt_norm;
     @BindView(R.id.txt_place)
     TextView txt_place;
+    @BindView(R.id.txt_cart)
+    TextView txt_cart;
+    @BindView(R.id.txt_addCart)
+    TextView txt_addCart;
+    @BindView(R.id.txt_buy)
+    TextView txt_buy;
+    @BindView(R.id.txt_collect)
+    TextView txt_collect;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     private ArrayList<RelatedBottonBean.DataBean.GoodsListBean> bottonList;
     private RelateBottonAdapter relateBottonAdapter;
+    private ArrayList<String> bannerList;
+    private String price;
+
 
     @Override
     protected int getLayout() {
@@ -67,6 +86,32 @@ public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter>
         relateBottonAdapter = new RelateBottonAdapter(bottonList, this);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         recyclerView.setAdapter(relateBottonAdapter);
+        txt_addCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopupwindow();
+            }
+        });
+        txt_buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopupwindow();
+            }
+        });
+    }
+
+    public void showPopupwindow(){
+        View view = LayoutInflater.from(this).inflate(R.layout.shop_pop,null);
+        ImageView shop_img = view.findViewById(R.id.shop_img);
+        TextView shop_price = view.findViewById(R.id.shop_price);
+        TextView minus = view.findViewById(R.id.minus);
+        TextView num = view.findViewById(R.id.num);
+        TextView put = view.findViewById(R.id.put);
+        Glide.with(this).load(bannerList.get(0)).into(shop_img);
+        shop_price.setText(price);
+        PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAtLocation(constraintLayout,Gravity.BOTTOM,0,-200);
     }
 
     @Override
@@ -84,9 +129,9 @@ public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter>
     @Override
     public void getRelatedDataReturn(RelatedBean result) {
         updateBanner(result.getData().getGallery());
-        String price = getResources().getString(R.string.price_news_model).replace("$",String.valueOf(result.getData().getInfo().getRetail_price()));
+        price = getResources().getString(R.string.price_news_model).replace("$",String.valueOf(result.getData().getInfo().getRetail_price()));
         updatePrice(result.getData().getInfo().getName(),
-                result.getData().getInfo().getGoods_brief(),price);
+                result.getData().getInfo().getGoods_brief(), price);
         updateParam(result.getData().getAttribute());
         updateWebView(result.getData().getInfo());
     }
@@ -97,7 +142,7 @@ public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter>
     }
 
     private void updateBanner(List<RelatedBean.DataBeanX.GalleryBean> list){
-        ArrayList<String> bannerList = new ArrayList<>();
+        bannerList = new ArrayList<>();
         for (int i = 0; i <list.size(); i++) {
             bannerList.add(list.get(i).getImg_url());
         }
@@ -137,8 +182,4 @@ public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter>
         webView.loadData(sb.toString(),"text/html","utf-8");
     }
 
-    //商品列表
-    private void updateGoodList(){
-
-    }
 }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="200dp">
         <ImageView
             android:id="@+id/hot_banner"
             android:layout_width="match_parent"
