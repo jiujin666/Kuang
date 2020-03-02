@@ -3,6 +3,7 @@ package com.example.kuangjia.models.api;
 import com.example.kuangjia.models.bean.BrandBean;
 import com.example.kuangjia.models.bean.BrandDetialBean;
 import com.example.kuangjia.models.bean.BrandGoodsBean;
+import com.example.kuangjia.models.bean.CartBean;
 import com.example.kuangjia.models.bean.HotCommoditBean;
 import com.example.kuangjia.models.bean.IndexBean;
 import com.example.kuangjia.models.bean.LookingBean;
@@ -17,10 +18,14 @@ import com.example.kuangjia.models.bean.TopBean;
 import com.example.kuangjia.models.bean.TopDetailBean;
 import com.example.kuangjia.models.bean.TopRecommend;
 import com.example.kuangjia.models.bean.TopicBean;
+import com.example.kuangjia.models.bean.UserBean;
+import com.example.kuangjia.models.bean.VerifyBean;
 import com.example.kuangjia.models.bean.VtlNameBean;
 
 import io.reactivex.Flowable;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ShopApi {
@@ -71,5 +76,14 @@ public interface ShopApi {
     Flowable<RelatedBean> getRelatedData(@Query("id") int id);
     @GET("goods/related")
     Flowable<RelatedBottonBean> getBottonBean(@Query("id") int id);
+    //验证码
+    @GET("auth/verify")
+    Flowable<VerifyBean> getVerify();
+    //登录
+    @POST("auth/login")
+    Flowable<UserBean> login(@Field("nickname") String nickname, @Field("password") String password);
+    //获取购物车的数据
+    @GET("cart/index")
+    Flowable<CartBean> getCartIndex();
 
 }

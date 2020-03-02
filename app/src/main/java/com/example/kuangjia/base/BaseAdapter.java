@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter{
-    ItemClickHandler itemClickHandler;
+     protected ItemClickHandler itemClickHandler;
 
     protected List<T> mDatas;
     protected Context mContext;
