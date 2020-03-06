@@ -25,7 +25,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter{
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(getLayout(),null);
+        View view = LayoutInflater.from(mContext).inflate(getLayout(),parent,false);
         BaseViewHolder holder = new BaseViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -52,18 +52,21 @@
               <TextView
                   android:id="@+id/minus"
                   android:layout_marginLeft="10dp"
+
                   android:text="-"
                   android:textSize="20dp"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"/>
               <TextView
                   android:id="@+id/num"
+                  android:layout_marginLeft="10dp"
                   android:textSize="20dp"
                   android:text="1"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"/>
               <TextView
                   android:id="@+id/put"
+                  android:layout_marginLeft="10dp"
                   android:textSize="20dp"
                   android:text="+"
                   android:layout_width="wrap_content"

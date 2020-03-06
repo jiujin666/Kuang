@@ -4,6 +4,9 @@ import com.example.kuangjia.models.bean.BrandBean;
 import com.example.kuangjia.models.bean.BrandDetialBean;
 import com.example.kuangjia.models.bean.BrandGoodsBean;
 import com.example.kuangjia.models.bean.CartBean;
+import com.example.kuangjia.models.bean.CartGoodsCheckBean;
+import com.example.kuangjia.models.bean.CartGoodsDeleteBean;
+import com.example.kuangjia.models.bean.CartGoodsUpdateBean;
 import com.example.kuangjia.models.bean.HotCommoditBean;
 import com.example.kuangjia.models.bean.IndexBean;
 import com.example.kuangjia.models.bean.LookingBean;
@@ -24,6 +27,7 @@ import com.example.kuangjia.models.bean.VtlNameBean;
 
 import io.reactivex.Flowable;
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -81,9 +85,26 @@ public interface ShopApi {
     Flowable<VerifyBean> getVerify();
     //登录
     @POST("auth/login")
+    @FormUrlEncoded
     Flowable<UserBean> login(@Field("nickname") String nickname, @Field("password") String password);
     //获取购物车的数据
     @GET("cart/index")
     Flowable<CartBean> getCartIndex();
 
+    //购物车商品数据的选中或取消
+    @POST("cart/checked")
+    @FormUrlEncoded
+    Flowable<CartGoodsCheckBean> setCartGoodsCheck(@Field("productIds") String pids, @Field("isChecked") int isChecked);
+
+
+    //更新商品的数据
+    @POST("cart/update")
+    @FormUrlEncoded
+    Flowable<CartGoodsUpdateBean> updateCartGoods(@Field("productId") String pids, @Field("goodsId") String goodsId, @Field("number") int number, @Field("id") int id);
+
+
+    //删除商品
+    @POST("cart/delete")
+    @FormUrlEncoded
+    Flowable<CartGoodsDeleteBean> deleteCartGoods(@Field("productIds") String pids);
 }

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -73,6 +74,6 @@ public abstract class BaseFragment <P extends IBasePersenter> extends Fragment i
 
     @Override
     public void showError(String str) {
-        Log.i("shibai",str);
+        Toast.makeText(context,str,Toast.LENGTH_SHORT).show();
     }
 }

@@ -94,7 +94,7 @@ public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter>
         });
         txt_buy.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)  {
                 showPopupwindow();
             }
         });

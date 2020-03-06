@@ -3,6 +3,7 @@ package com.example.kuangjia.ui.fragments.shoping;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -18,9 +19,13 @@ import com.example.kuangjia.base.BaseFragment;
 import com.example.kuangjia.interfaces.IBasePersenter;
 import com.example.kuangjia.interfaces.shop.ShoppingConstact;
 import com.example.kuangjia.models.bean.CartBean;
+import com.example.kuangjia.models.bean.CartGoodsCheckBean;
+import com.example.kuangjia.models.bean.CartGoodsDeleteBean;
+import com.example.kuangjia.models.bean.CartGoodsUpdateBean;
 import com.example.kuangjia.persenter.shop.ShoppingPresenter;
 import com.example.kuangjia.ui.activitys.LoginActivity;
 import com.example.kuangjia.utils.SpUtils;
+import com.example.kuangjia.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +36,7 @@ import butterknife.OnClick;
 public class ShopingFragment extends BaseFragment <ShoppingConstact.Presenter> implements ShoppingConstact.View,
         BaseAdapter.ItemClickHandler {
     @BindView(R.id.radio_all)
-    RadioButton radioAll;
+    CheckBox radioAll;
     @BindView(R.id.txt_TotalPrice)
     TextView txtTotalPrice;
     @BindView(R.id.txt_order)
@@ -56,13 +61,14 @@ public class ShopingFragment extends BaseFragment <ShoppingConstact.Presenter> i
         shoppingAdapter = new ShoppingAdapter(list,context);
         cartList.setLayoutManager(new LinearLayoutManager(context));
         cartList.setAdapter(shoppingAdapter);
-        radioAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        /*radioAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                setSelectAll();
+                setSelectAll(isChecked);
                 shoppingAdapter.notifyDataSetChanged();
             }
-        });
+        });*/
+        shoppingAdapter.setOnItemClickHandler(this);
     }
 
     @Override
@@ -72,19 +78,19 @@ public class ShopingFragment extends BaseFragment <ShoppingConstact.Presenter> i
         String token = SpUtils.getInstance().getString("token");
         if (TextUtils.isEmpty(token)) {
             Intent intent = new Intent(context, LoginActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,100);
         } else {
             persenter.getCartIndex();
         }
     }
 
-    /*@Override
+    @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         super.startActivityForResult(intent, requestCode);
         if(requestCode == 100){
             if(persenter != null) persenter.getCartIndex();
         }
-    }*/
+    }
 
     @Override
     protected ShoppingConstact.Presenter createPersenter() {
@@ -94,42 +100,210 @@ public class ShopingFragment extends BaseFragment <ShoppingConstact.Presenter> i
     @Override
     public void getCartIndexReturn(CartBean result) {
         shoppingAdapter.updata(result.getData().getCartList());
+        //判断当前类别的数据是否是全部选中
+        int totalPrice = 0;
+        int nums = 0;
+        boolean isSelectAll = true;
+        for(CartBean.DataBean.CartListBean item:result.getData().getCartList()){
+            if(isSelectAll){
+                if(!item.isSelect){
+                    isSelectAll = false;
+                }
+            }
+            if(item.isSelect){
+                totalPrice += item.getRetail_price()*item.getNumber();
+                nums += item.getNumber();
+            }
+        }
+        if(isSelectAll){
+            radioAll.setChecked(true);
+        }
+        String price = context.getResources().getString(R.string.price_news_model).replace("$",String.valueOf(totalPrice));
+        txtTotalPrice.setText(price);
+        radioAll.setText("全选("+nums+")");
     }
 
-    @OnClick({R.id.txt_order,R.id.txt_edit})
+    //设置商品选中返回
+    @Override
+    public void setCartGoodsCheckedReturn(CartGoodsCheckBean result) {
+
+    }
+
+    //更新商品信息返回
+    @Override
+    public void updateCartGoodsReturn(CartGoodsUpdateBean result) {
+        for(CartGoodsUpdateBean.DataBean.CartListBean item:result.getData().getCartList()){
+            CartBean.DataBean.CartListBean bean = getItemDataById(item.getId());
+            if(bean != null) bean.setNumber(item.getNumber());
+        }
+        shoppingAdapter.notifyDataSetChanged();
+    }
+
+    //删除商品返回
+    @Override
+    public void deleteCartGoodsReturn(CartGoodsDeleteBean result) {
+        // int lg = list.size();
+        for(int i=0; i<list.size(); i++){
+            CartBean.DataBean.CartListBean listBean = list.get(i);
+            boolean bool = false; //检验当前的list中第i条数据是否被删除
+            for(CartGoodsDeleteBean.DataBean.CartListBean item:result.getData().getCartList()){
+                if(item.getId() == listBean.getId()){
+                    bool = true;
+                    break;
+                }
+            }
+            //如果不在，删除list中的第i条数据
+            if(!bool){
+                list.remove(i);
+            }
+        }
+        shoppingAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 通过商品列表数据id获取对应的商品数据
+     * @param id
+     * @return
+     */
+    private CartBean.DataBean.CartListBean getItemDataById(int id){
+        for(CartBean.DataBean.CartListBean item:list){
+            if(item.getId() == id){
+                return item;
+            }
+        }
+        return null;
+    }
+
+    @OnClick({R.id.txt_order,R.id.txt_edit,R.id.radio_all})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.radio_all:
+                boolean isChecked = radioAll.isChecked();
+                setSelectAll(isChecked);
+                shoppingAdapter.notifyDataSetChanged();
+                break;
             case R.id.txt_order:
-
+                boolean isEditor = getPageIsEditor();
+                if(isEditor){
+                    //当前是编辑状态，执行删除操作
+                    deleteGoods();
+                }else{
+                    //当前是正常状态，执行下单的操作
+                    doOrder();
+                }
                 break;
             case R.id.txt_edit:
-                String str = txtEdit.getText().toString();
-                if(str.equals("编辑")){
+                boolean bool = getPageIsEditor();
+                if(!bool){
                     txtEdit.setText("完成");
+                    txtOrder.setText("删除所选");
                     shoppingAdapter.isEdit = true;
                     shoppingAdapter.notifyDataSetChanged();
                 }else{
                     txtEdit.setText("编辑");
+                    txtOrder.setText("下单");
                     shoppingAdapter.isEdit = false;
                     //提交编辑页面的数据
+                    shoppingAdapter.notifyDataSetChanged();
                 }
                 break;
         }
     }
 
-    //radio状态变化
+    /**
+     * 删除商品
+     */
+    private void deleteGoods(){
+        //查找当前需要删除的商品
+        StringBuilder sb = new StringBuilder();
+        for(CartBean.DataBean.CartListBean item:list){
+            if(item.isDelSelect){
+                sb.append(item.getProduct_id());
+                sb.append(",");
+            }
+        }
+        if(sb.length() > 0){
+            //去掉末尾的逗号
+            sb.deleteCharAt(sb.length()-1);
+            String pids = sb.toString();
+            //调用删除商品的接口
+            persenter.deleteCartGoods(pids);
+        }else{
+            showError("没有选中任何商品");
+        }
+    }
+
+    /**
+     * 下单
+     */
+    private void doOrder(){
+
+    }
+
+    /**
+     * radio状态变化
+     * 接口回调实现的方法
+     * 作用：1.处理正常状态下的列表item选中状态的变化
+     * 2.处理编辑状态下列表item的数据更新
+     */
     @Override
     public void itemClick(int position, BaseAdapter.BaseViewHolder holder) {
-        updateSelectAll();
+        boolean bool = getPageIsEditor();
+        if(!bool){
+            updateSelectAll();
+            //更新商品的选中状态
+            int[] ids = new int[1];
+            ids[0] = list.get(position).getId();
+            int ischecked = list.get(position).isSelect ? 0 : 1;
+            updateGoodsChecked(ids,ischecked);
+        }else{
+            //更新商品的数量
+            String pids = String.valueOf(list.get(position).getProduct_id());
+            String goodsId = String.valueOf(list.get(position).getGoods_id());
+            int number = list.get(position).getNumber();
+            int id = list.get(position).getId();
+            //发送更新商品数量的请求方法
+            persenter.updateCartGoods(pids,goodsId,number,id);
+        }
+    }
+
+    /**
+     * 更新购物车商品数据的选中状态
+     * @param ids
+     * @param isChecked
+     */
+    private void updateGoodsChecked(int[] ids,int isChecked){
+        String pids = StringUtils.splitArray(ids);
+        persenter.setCartGoodsChecked(pids,isChecked);
     }
 
     /**
      * 设置全部选中
      */
-    private void setSelectAll(){
-        for(CartBean.DataBean.CartListBean item:list){
-            item.isSelect = true;
+    private void setSelectAll(boolean bool){
+        //更新列表中商品的状态
+        int totalPrice = 0;
+        int nums = 0;
+        int[] ids = new int[list.size()];
+        for(int i=0; i<list.size(); i++){
+            list.get(i).isSelect = bool;
+            ids[i] = list.get(i).getId();
+            if(bool){
+                totalPrice += list.get(i).getRetail_price()*list.get(i).getNumber();
+                nums += list.get(i).getNumber();
+            }
         }
+        int isChecked = bool ? 0 : 1;
+        updateGoodsChecked(ids,isChecked);
+        //刷新界面数量和总价
+        if(bool){
+            String  price = context.getResources().getString(R.string.price_news_model).replace("$",String.valueOf(totalPrice));
+            txtTotalPrice.setText(price);
+            radioAll.setText("全选("+nums+")");
+        }else{
+            txtTotalPrice.setText("");
+        }
+
     }
 
     /**
@@ -163,7 +337,6 @@ public class ShopingFragment extends BaseFragment <ShoppingConstact.Presenter> i
                 }
             }
         }
-
         radioAll.setChecked(isAll);
         radioAll.setText("全选("+nums+")");
         if(!shoppingAdapter.isEdit){
@@ -173,5 +346,14 @@ public class ShopingFragment extends BaseFragment <ShoppingConstact.Presenter> i
         }else{
             txtTotalPrice.setText("");
         }
+    }
+
+    /**
+     * 获取当前页面是否是编辑状态
+     * @return
+     */
+    private boolean getPageIsEditor(){
+        String str = txtEdit.getText().toString();
+        return str.equals("编辑") ? false : true;
     }
 }
