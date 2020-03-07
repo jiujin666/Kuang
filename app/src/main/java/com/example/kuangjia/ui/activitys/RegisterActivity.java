@@ -5,11 +5,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.kuangjia.R;
 import com.example.kuangjia.base.BaseActivity;
 import com.example.kuangjia.interfaces.shop.RegisterConstract;
+import com.example.kuangjia.models.bean.UserBean;
 import com.example.kuangjia.models.bean.VerifyBean;
 import com.example.kuangjia.persenter.shop.RegisterPersenter;
 
@@ -58,6 +60,13 @@ public class RegisterActivity extends BaseActivity<RegisterConstract.Persenter> 
         updateVerify(result);
     }
 
+    @Override
+    public void getUserReturn(UserBean userBean) {
+        String errmsg = userBean.getErrmsg();
+        Toast.makeText(this,errmsg,Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
     @OnClick({R.id.img_verify, R.id.btn_register})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -65,6 +74,15 @@ public class RegisterActivity extends BaseActivity<RegisterConstract.Persenter> 
                 persenter.getVerify();
                 break;
             case R.id.btn_register:
+                String username = editUsername.getText().toString();
+                String pw1 = editPw1.getText().toString();
+                String ps2 = editPw2.getText().toString();
+                String verify = editVerify.getText().toString();
+                if (pw1.equals(ps2)){
+                    persenter.getUser(username,pw1,verify);
+                }else {
+                    Toast.makeText(this,"两次输入的密码不同，请重新输入",Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

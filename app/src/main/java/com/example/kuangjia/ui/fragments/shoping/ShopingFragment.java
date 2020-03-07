@@ -24,6 +24,7 @@ import com.example.kuangjia.models.bean.CartGoodsDeleteBean;
 import com.example.kuangjia.models.bean.CartGoodsUpdateBean;
 import com.example.kuangjia.persenter.shop.ShoppingPresenter;
 import com.example.kuangjia.ui.activitys.LoginActivity;
+import com.example.kuangjia.ui.activitys.OrderInfoActivity;
 import com.example.kuangjia.utils.SpUtils;
 import com.example.kuangjia.utils.StringUtils;
 
@@ -237,7 +238,8 @@ public class ShopingFragment extends BaseFragment <ShoppingConstact.Presenter> i
      * 下单
      */
     private void doOrder(){
-
+        Intent intent = new Intent(context, OrderInfoActivity.class);
+        startActivity(intent);
     }
 
     /**

@@ -5,7 +5,7 @@ public class UserBean {
     /**
      * errno : 0
      * errmsg :
-     * data : {"code":200,"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1LCJpYXQiOjE1ODMxMTA3MDh9.jfCRTkgEVWwFKTFhvRq8wDMj4-5HeKh2P9dDFcj5I0I","userInfo":{"id":5,"username":"a878f5fa-9fd7-461a-82cc-1af52492e0d2","nickname":"qq1","gender":0,"avatar":"","birthday":0}}
+     * data : {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1MywiaWF0IjoxNTgzNTQ4MTMxfQ.q754pFrJeh2TIAZZ71mTpbizSwhbPIxnRRdqFE3DaqI","userInfo":{"id":53,"username":"a23e5156-ee6a-4ee6-831b-6cd01c1d43ea","nickname":"songkai","gender":0,"avatar":"","birthday":0}}
      */
 
     private int errno;
@@ -38,22 +38,12 @@ public class UserBean {
 
     public static class DataBean {
         /**
-         * code : 200
-         * token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1LCJpYXQiOjE1ODMxMTA3MDh9.jfCRTkgEVWwFKTFhvRq8wDMj4-5HeKh2P9dDFcj5I0I
-         * userInfo : {"id":5,"username":"a878f5fa-9fd7-461a-82cc-1af52492e0d2","nickname":"qq1","gender":0,"avatar":"","birthday":0}
+         * token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1MywiaWF0IjoxNTgzNTQ4MTMxfQ.q754pFrJeh2TIAZZ71mTpbizSwhbPIxnRRdqFE3DaqI
+         * userInfo : {"id":53,"username":"a23e5156-ee6a-4ee6-831b-6cd01c1d43ea","nickname":"songkai","gender":0,"avatar":"","birthday":0}
          */
 
-        private int code;
         private String token;
         private UserInfoBean userInfo;
-
-        public int getCode() {
-            return code;
-        }
-
-        public void setCode(int code) {
-            this.code = code;
-        }
 
         public String getToken() {
             return token;
@@ -73,9 +63,9 @@ public class UserBean {
 
         public static class UserInfoBean {
             /**
-             * id : 5
-             * username : a878f5fa-9fd7-461a-82cc-1af52492e0d2
-             * nickname : qq1
+             * id : 53
+             * username : a23e5156-ee6a-4ee6-831b-6cd01c1d43ea
+             * nickname : songkai
              * gender : 0
              * avatar :
              * birthday : 0

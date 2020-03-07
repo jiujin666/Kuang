@@ -1,15 +1,19 @@
 package com.example.kuangjia.ui.activitys;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -20,10 +24,12 @@ import com.example.kuangjia.R;
 import com.example.kuangjia.adapter.RelateBottonAdapter;
 import com.example.kuangjia.base.BaseActivity;
 import com.example.kuangjia.interfaces.sort.GoodInfoConstract;
+import com.example.kuangjia.models.bean.AddShopBean;
 import com.example.kuangjia.models.bean.RelatedBean;
 import com.example.kuangjia.models.bean.RelatedBottonBean;
 import com.example.kuangjia.persenter.sort.GoodInfoPersenter;
 import com.example.kuangjia.ui.fragments.home.HomeFragment;
+import com.example.kuangjia.utils.SpUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
 
@@ -70,6 +76,11 @@ public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter>
     private RelateBottonAdapter relateBottonAdapter;
     private ArrayList<String> bannerList;
     private String price;
+    private int numbers;
+    private List<RelatedBean.DataBeanX.ProductListBean> productList;
+    private int id;
+    private int goods_id;
+    private PopupWindow popupWindow;
 
 
     @Override
@@ -89,13 +100,14 @@ public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter>
         txt_addCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPopupwindow();
-            }
-        });
-        txt_buy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)  {
-                showPopupwindow();
+                //如果用户没有登录就要
+                String token = SpUtils.getInstance().getString("token");
+                if (TextUtils.isEmpty(token)) {
+                    Intent intent = new Intent(GoodInfoActivity.this, LoginActivity.class);
+                    startActivityForResult(intent,100);
+                } else {
+                    showPopupwindow();
+                }
             }
         });
     }
@@ -107,9 +119,40 @@ public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter>
         TextView minus = view.findViewById(R.id.minus);
         TextView num = view.findViewById(R.id.num);
         TextView put = view.findViewById(R.id.put);
+        Button shure=view.findViewById(R.id.shure);
+        String number = num.getText().toString();
+        numbers = Integer.parseInt(number);
         Glide.with(this).load(bannerList.get(0)).into(shop_img);
         shop_price.setText(price);
-        PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (numbers ==1){
+                    num.setText("1");
+                }else {
+                    numbers--;
+                    num.setText(numbers +"");
+                }
+            }
+        });
+
+        put.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                numbers++;
+                num.setText(numbers+"");
+            }
+        });
+
+        shure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                persenter.getaddShopData(id+"",number,goods_id+"");
+            }
+        });
+        popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setOutsideTouchable(true);
         popupWindow.showAtLocation(constraintLayout,Gravity.BOTTOM,0,-200);
     }
@@ -134,11 +177,21 @@ public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter>
                 result.getData().getInfo().getGoods_brief(), price);
         updateParam(result.getData().getAttribute());
         updateWebView(result.getData().getInfo());
+        productList = result.getData().getProductList();
+        id = productList.get(0).getId();
+        goods_id = productList.get(0).getGoods_id();
     }
 
     @Override
     public void getRelateBottonRetrun(RelatedBottonBean result) {
         relateBottonAdapter.updata(result.getData().getGoodsList());
+    }
+
+    @Override
+    public void addShop(AddShopBean result) {
+        String errmsg = result.getErrmsg();
+        Toast.makeText(GoodInfoActivity.this,errmsg,Toast.LENGTH_SHORT).show();
+        popupWindow.dismiss();
     }
 
     private void updateBanner(List<RelatedBean.DataBeanX.GalleryBean> list){

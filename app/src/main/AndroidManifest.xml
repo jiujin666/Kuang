@@ -32,6 +32,7 @@
         <activity android:name=".ui.activitys.NewsActivity"/>
         <activity android:name=".ui.activitys.RegisterActivity"/>
         <activity android:name=".ui.activitys.LoginActivity"/>
+        <activity android:name=".ui.activitys.OrderInfoActivity"/>
         <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing" android:value="true"/>
     </application>
 
