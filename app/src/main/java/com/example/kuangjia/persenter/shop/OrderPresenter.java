@@ -8,6 +8,11 @@ import com.example.kuangjia.models.bean.OrderInfoBean;
 import com.example.kuangjia.utils.RxUtils;
 
 public class OrderPresenter extends BasePersenter<ShoppingConstact.OrderView> implements ShoppingConstact.OrderPresenter {
+    @Override
+    public void getCartIndex() {
+
+    }
+
     //获取订单信息
     @Override
     public void getOrderList(int addressId, int couponId) {

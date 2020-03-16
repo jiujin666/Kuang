@@ -2,6 +2,7 @@ package com.example.kuangjia.models.api;
 
 import com.example.kuangjia.models.bean.AddShopBean;
 import com.example.kuangjia.models.bean.AddressBean;
+import com.example.kuangjia.models.bean.AdressSaveBean;
 import com.example.kuangjia.models.bean.BrandBean;
 import com.example.kuangjia.models.bean.BrandDetialBean;
 import com.example.kuangjia.models.bean.BrandGoodsBean;
@@ -15,6 +16,7 @@ import com.example.kuangjia.models.bean.LookingBean;
 import com.example.kuangjia.models.bean.NewsCommoditBean;
 import com.example.kuangjia.models.bean.NewsDetailBean;
 import com.example.kuangjia.models.bean.OrderInfoBean;
+import com.example.kuangjia.models.bean.RegionBean;
 import com.example.kuangjia.models.bean.RelatedBean;
 import com.example.kuangjia.models.bean.RelatedBottonBean;
 import com.example.kuangjia.models.bean.SortDetialBean;
@@ -28,8 +30,11 @@ import com.example.kuangjia.models.bean.UserBean;
 import com.example.kuangjia.models.bean.VerifyBean;
 import com.example.kuangjia.models.bean.VtlNameBean;
 
+import java.util.Map;
+
 import io.reactivex.Flowable;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -124,11 +129,24 @@ public interface ShopApi {
     @FormUrlEncoded
     Flowable<CartGoodsDeleteBean> deleteCartGoods(@Field("productIds") String pids);
 
+    //地址列表
     @GET("address/list")
     Flowable<AddressBean> getAddress();
+
+    //保存地址
+    @POST("address/save")
+    @FormUrlEncoded
+    Flowable<AdressSaveBean> saveAdress(@FieldMap Map adressMap);
+
+    //获取省市区的数据
+    @GET("region/list?parentId=39")
+    Flowable<RegionBean> getRegion(@Query("parentId") int parentId);
+
 
     //下单前的订单确认  地址ID+优惠券ID
     @GET("cart/checkout")
     Flowable<OrderInfoBean> getOrderInfo(@Query("addressId") int addressId, @Query("couponId") int couponId);
+
+
 
 }

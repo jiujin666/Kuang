@@ -113,48 +113,50 @@ public class GoodInfoActivity  extends BaseActivity<GoodInfoConstract.Persenter>
     }
 
     public void showPopupwindow(){
-        View view = LayoutInflater.from(this).inflate(R.layout.shop_pop,null);
-        ImageView shop_img = view.findViewById(R.id.shop_img);
-        TextView shop_price = view.findViewById(R.id.shop_price);
-        TextView minus = view.findViewById(R.id.minus);
-        TextView num = view.findViewById(R.id.num);
-        TextView put = view.findViewById(R.id.put);
-        Button shure=view.findViewById(R.id.shure);
-        String number = num.getText().toString();
-        numbers = Integer.parseInt(number);
-        Glide.with(this).load(bannerList.get(0)).into(shop_img);
-        shop_price.setText(price);
+       if (persenter!=null){
+           View view = LayoutInflater.from(this).inflate(R.layout.shop_pop,null);
+           ImageView shop_img = view.findViewById(R.id.shop_img);
+           TextView shop_price = view.findViewById(R.id.shop_price);
+           TextView minus = view.findViewById(R.id.minus);
+           TextView num = view.findViewById(R.id.num);
+           TextView put = view.findViewById(R.id.put);
+           Button shure=view.findViewById(R.id.shure);
+           String number = num.getText().toString();
+           numbers = Integer.parseInt(number);
+           Glide.with(this).load(bannerList.get(0)).into(shop_img);
+           shop_price.setText(price);
 
-        minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+           minus.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
 
-                if (numbers ==1){
-                    num.setText("1");
-                }else {
-                    numbers--;
-                    num.setText(numbers +"");
-                }
-            }
-        });
+                   if (numbers ==1){
+                       num.setText("1");
+                   }else {
+                       numbers--;
+                       num.setText(numbers +"");
+                   }
+               }
+           });
 
-        put.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                numbers++;
-                num.setText(numbers+"");
-            }
-        });
+           put.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   numbers++;
+                   num.setText(numbers+"");
+               }
+           });
 
-        shure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                persenter.getaddShopData(id+"",number,goods_id+"");
-            }
-        });
-        popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.showAtLocation(constraintLayout,Gravity.BOTTOM,0,-200);
+           shure.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   persenter.getaddShopData(id+"",number,goods_id+"");
+               }
+           });
+           popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+           popupWindow.setOutsideTouchable(true);
+           popupWindow.showAtLocation(constraintLayout,Gravity.BOTTOM,0,-200);
+       }
     }
 
     @Override

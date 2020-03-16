@@ -1,8 +1,10 @@
 package com.example.kuangjia.models.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class AddressBean {
+
     /**
      * errno : 0
      * errmsg :
@@ -37,7 +39,7 @@ public class AddressBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * id : 12
          * name : 张三

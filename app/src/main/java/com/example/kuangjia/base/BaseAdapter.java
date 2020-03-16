@@ -12,10 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter{
-     protected ItemClickHandler itemClickHandler;
+    protected ItemClickHandler itemClickHandler;
+    protected View.OnClickListener clickListener;
 
     protected List<T> mDatas;
     protected Context mContext;
+
 
     public BaseAdapter(List<T> data, Context context){
         mDatas = data;
@@ -25,6 +27,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter{
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //在ConstarinatLayout中RecylerView使用下面这种用法，保证item能满屏显示
         View view = LayoutInflater.from(mContext).inflate(getLayout(),parent,false);
         BaseViewHolder holder = new BaseViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
@@ -49,14 +52,19 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter{
         return mDatas.size();
     }
 
-    //刷新替换所有列表数据
+    /**
+     * 刷新替换所有列表数据
+     * @param list
+     */
     public void updata(List<T> list){
         mDatas.clear();
         mDatas.addAll(list);
         notifyDataSetChanged();
     }
 
-    //分页加载数据
+    /**
+     * 分页加载数据的刷新
+     */
     public void refreshList(List<T> list){
         mDatas.addAll(list);
         notifyDataSetChanged();
@@ -67,7 +75,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter{
     //hodler是对应的item的管理的，T当前item所对应的数据
     public abstract void bindData(BaseViewHolder holder,T t);
 
-    //创建基类ViewHolder
+    /**
+     * 创建基类的ViewHolder
+     */
     public static class BaseViewHolder extends RecyclerView.ViewHolder{
 
         private SparseArray items;
@@ -77,7 +87,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter{
             items = new SparseArray();
         }
 
-        //获取item中的元素
+        /**
+         * 获取item中的元素
+         * @param id
+         * @return
+         */
         public View getView(int id){
             View view = (View) items.get(id);
             if(view == null){
@@ -93,7 +107,14 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter{
         this.itemClickHandler = clickHandler;
     }
 
-    //定义回调接口
+    //设置接口回调监听，响应事件发生在条目中的某个组件上
+    public void setOnClickListener(View.OnClickListener listener){
+        this.clickListener = listener;
+    }
+
+    /**
+     * 定义回调接口
+     */
     public interface ItemClickHandler{
         void itemClick(int position, BaseViewHolder holder);
     }
