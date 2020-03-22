@@ -1,5 +1,6 @@
 package com.example.kuangjia.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -23,10 +24,13 @@ public abstract class BaseActivity<P extends IBasePersenter> extends AppCompatAc
     public   P persenter;
     Unbinder unbinder;
 
+    protected Context context;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
+        context=this;
         unbinder= ButterKnife.bind(this);
         initView();
         persenter=createPersenter();
